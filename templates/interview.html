@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Recorder</title>
+</head>
+<body>
+
+<h1>Video Recorder</h1>
+
+<video id="videoElement" width="1280" height="960" autoplay muted></video>
+<button id="startRecord">Start Recording</button>
+<button id="stopRecord" disabled>Stop Recording</button>
+
+<h2>Preview</h2>
+<video id="previewElement" width="640" height="480" controls></video>
+<button id="downloadRecord" disabled>Download</button>
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+
+</body>
+</html>
