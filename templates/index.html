@@ -6,10 +6,11 @@
 <body>
 
 <h1>예상 질문들을 입력해주세요</h1>
-<form>
-    <textarea type="text" rows="10" cols="40" placeholder="예상 질문"></textarea>
-    <input type="submit" value="완료" onclick="saveQuestion()">
+<form method="GET" action="interview.html">
+    <textarea type="text" rows="10" cols="40" name="question" placeholder="예상 질문"></textarea>
+    <input type="submit" value="완료">
 </form>
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 
 </body>
 </html>

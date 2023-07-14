@@ -55,4 +55,14 @@ stopRecordButton.addEventListener('click', () => {
 });
 
 
+function questionHandler() {
+    const queryStrings = window.location.search;
+    const queryParams = new URLSearchParams(queryStrings);
+    const questionStrings = queryParams.get("question");
+
+    const questions = questionStrings.split("\r\n");
+    console.log(questions)
+}
+
 startCamera();
+questionHandler();
