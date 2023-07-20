@@ -3,6 +3,7 @@ const previewElement = document.getElementById('previewElement');
 const startRecordButton = document.getElementById('startRecord');
 const stopRecordButton = document.getElementById('stopRecord');
 const downloadButton = document.getElementById('downloadRecord');
+const questionElement = document.getElementById("question");
 
 let mediaRecorder;
 let recordedChunks = [];
@@ -61,8 +62,8 @@ function questionHandler() {
     const questionStrings = queryParams.get("question");
 
     const questions = questionStrings.split("\r\n");
-    console.log(questions)
+
+    questionElement.innerHTML = questions[0]
 }
 
-startCamera();
-questionHandler();
+startCamera().then(questionHandler)
