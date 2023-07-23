@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Video Recorder</title>
+    <title>Self interview</title>
 </head>
 <body>
 
-<h1>Video Recorder</h1>
+<h1>Self interview</h1>
 <h2 id="question"></h2>
 
 <video id="videoElement" width="1280" height="960" autoplay muted></video>
-<button id="startRecord">Start Recording</button>
-<button id="stopRecord" disabled>Stop Recording</button>
+<button id="startRecord">녹화 시작</button>
+<button id="stopRecord" disabled>녹화 중지</button>
+<button id="nextQuestion">다음 질문</button>
 
-<h2>Preview</h2>
+<h2>미리 보기</h2>
 <video id="previewElement" width="640" height="480" controls></video>
 <button id="downloadRecord" disabled>Download</button>
 <script type="text/javascript" src="{{ url_for('static', filename='interview.js') }}"></script>
