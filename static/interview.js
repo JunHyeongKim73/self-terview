@@ -4,9 +4,13 @@ const startRecordButton = document.getElementById('startRecord');
 const stopRecordButton = document.getElementById('stopRecord');
 const downloadButton = document.getElementById('downloadRecord');
 const questionElement = document.getElementById("question");
+const nextQuestionButton = document.getElementById("nextQuestion");
 
 let mediaRecorder;
 let recordedChunks = [];
+
+let questions;
+let questionIndex = 0;
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
@@ -55,15 +59,44 @@ stopRecordButton.addEventListener('click', () => {
     recordedChunks = [];
 });
 
+nextQuestionButton.addEventListener("click", () => {
+    questionIndex++
+
+    if (questionIndex >= questions.length) {
+        navigateEnd()
+        return
+    }
+
+    questionElement.innerHTML = questions[questionIndex]
+})
+
+function navigateEnd() {
+
+}
+
+function shuffle(array) {
+    let currentIndex = array.length - 1;
+
+    while (currentIndex > 0) {
+        const randomIndex = Math.floor(Math.random() * currentIndex);
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+
+        currentIndex--
+    }
+}
 
 function questionHandler() {
     const queryStrings = window.location.search;
     const queryParams = new URLSearchParams(queryStrings);
     const questionStrings = queryParams.get("question");
 
-    const questions = questionStrings.split("\r\n");
+    questions = questionStrings.split("\r\n");
+    questions.forEach((value, index) => {
+        questions[index] = "예상 질문: " + questions[index]
+    })
+    shuffle(questions)
 
-    questionElement.innerHTML = questions[0]
+    questionElement.innerHTML = questions[questionIndex]
 }
 
 startCamera().then(questionHandler)
