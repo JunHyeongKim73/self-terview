@@ -85,6 +85,10 @@ function shuffle(array) {
     }
 }
 
+function getQuestionTTS(question) {
+    
+}
+
 function playAudioFromBase64(audioBase64) {
     const audioBinary = atob(audioBase64);
     const audioData = new Uint8Array(audioBinary.length);
