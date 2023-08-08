@@ -67,7 +67,7 @@ nextQuestionButton.addEventListener("click", () => {
         return
     }
 
-    questionElement.innerHTML = questions[questionIndex]
+    playQuestionSoundTTS()
 })
 
 function navigateEnd() {
@@ -85,8 +85,50 @@ function shuffle(array) {
     }
 }
 
-function getQuestionTTS(question) {
-    
+function playQuestionSoundTTS() {
+    const question = questions[questionIndex]
+    questionElement.innerHTML = question
+
+    const ttsEndPoint = "https://texttospeech.googleapis.com/v1beta1/text:synthesize";
+
+    const requestData = {
+        "audioConfig": {
+            "audioEncoding": "LINEAR16",
+            "effectsProfileId": [
+                "small-bluetooth-speaker-class-device"
+            ],
+            "pitch": 0,
+            "speakingRate": 1
+        },
+        "input": {
+            "text": question
+        },
+        "voice": {
+            "languageCode": "ko-KR",
+            "name": "ko-KR-Wavenet-B"
+        }
+    };
+
+    fetch(ttsEndPoint, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-goog-api-key": API_KEY
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("TTS 오류 발생")
+            }
+            return response.blob()
+        })
+        .then((audioBase64) => {
+            playAudioFromBase64(audioBase64)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 
 function playAudioFromBase64(audioBase64) {
@@ -111,7 +153,7 @@ function questionHandler() {
     questions = questionStrings.split("\r\n");
     shuffle(questions)
 
-    questionElement.innerHTML = questions[questionIndex]
+    playQuestionSoundTTS()
 }
 
 startCamera().then(questionHandler)
