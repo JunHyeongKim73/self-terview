@@ -13,10 +13,10 @@ def interview():
     return render_template("interview.html")
 
 
-# @app.route("/tts", methods=["POST"])
-# def tts():
-#     # `google tts api` 요청 및 응답
-#     return "OK"
+@app.route("/tts", methods=["POST"])
+def tts():
+    # `google tts api` 요청 및 응답
+    return "OK"
 
 
 if __name__ == "__main__":

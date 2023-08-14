@@ -113,7 +113,7 @@ function playQuestionSoundTTS() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-goog-api-key": API_KEY
+            "X-goog-api-key": Key
         },
         body: JSON.stringify(requestData)
     })
@@ -121,10 +121,10 @@ function playQuestionSoundTTS() {
             if (!response.ok) {
                 throw new Error("TTS 오류 발생")
             }
-            return response.blob()
+            return response.json()
         })
-        .then((audioBase64) => {
-            playAudioFromBase64(audioBase64)
+        .then((data) => {
+            playAudioFromBase64(data["audioContent"])
         })
         .catch((error) => {
             console.log(error)
@@ -132,6 +132,7 @@ function playQuestionSoundTTS() {
 }
 
 function playAudioFromBase64(audioBase64) {
+    console.log(audioBase64)
     const audioBinary = atob(audioBase64);
     const audioData = new Uint8Array(audioBinary.length);
     for (let i = 0; i < audioBinary.length; i++) {
