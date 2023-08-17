@@ -15,6 +15,7 @@ let questionIndex = 0;
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     videoElement.srcObject = stream;
+    videoElement.style.transform = "scaleX(-1)";
 
     mediaRecorder = new MediaRecorder(stream);
 
@@ -113,7 +114,7 @@ function playQuestionSoundTTS() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-goog-api-key": Key
+            "X-goog-api-key": API_KEY
         },
         body: JSON.stringify(requestData)
     })
@@ -132,7 +133,6 @@ function playQuestionSoundTTS() {
 }
 
 function playAudioFromBase64(audioBase64) {
-    console.log(audioBase64)
     const audioBinary = atob(audioBase64);
     const audioData = new Uint8Array(audioBinary.length);
     for (let i = 0; i < audioBinary.length; i++) {
