@@ -90,33 +90,10 @@ function playQuestionSoundTTS() {
     const question = questions[questionIndex]
     questionElement.innerHTML = question
 
-    const ttsEndPoint = "https://texttospeech.googleapis.com/v1beta1/text:synthesize";
-
-    const requestData = {
-        "audioConfig": {
-            "audioEncoding": "LINEAR16",
-            "effectsProfileId": [
-                "small-bluetooth-speaker-class-device"
-            ],
-            "pitch": 0,
-            "speakingRate": 1
-        },
-        "input": {
-            "text": question
-        },
-        "voice": {
-            "languageCode": "ko-KR",
-            "name": "ko-KR-Wavenet-B"
-        }
-    };
+    const ttsEndPoint = "http://localhost:8080/tts?question=" + question;
 
     fetch(ttsEndPoint, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-goog-api-key": API_KEY
-        },
-        body: JSON.stringify(requestData)
+        method: "GET",
     })
         .then((response) => {
             if (!response.ok) {
