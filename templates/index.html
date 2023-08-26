@@ -2,12 +2,15 @@
 <html>
 <head>
     <title>Video Recorder</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
 </head>
 <body>
 
-<h1>예상 질문들을 입력해주세요. 각각의 질문들은 엔터로 구분합니다.</h1>
+<h1>예상 질문들을 입력해주세요.</h1>
+<h1>각각의 질문들은 엔터로 구분합니다.</h1>
 <form method="GET" action="interview.html">
-    <textarea type="text" rows="10" cols="40" name="question" placeholder="예상 질문들을 입력해주세요. 각각의 질문들은 엔터로 구분합니다."></textarea>
+    <textarea type="text" rows="10" cols="60" name="question"
+              placeholder="예상 질문들을 입력해주세요. 각각의 질문들은 엔터로 구분합니다."></textarea>
     <input type="submit" value="완료">
 </form>
 <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
