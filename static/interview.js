@@ -15,7 +15,6 @@ let questionIndex = 0;
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     videoElement.srcObject = stream;
-    videoElement.style.transform = "scaleX(-1)";
 
     mediaRecorder = new MediaRecorder(stream);
 
