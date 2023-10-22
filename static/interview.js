@@ -47,6 +47,7 @@ async function startCamera() {
 }
 
 startRecordButton.addEventListener('click', () => {
+    questionHandler();
     mediaRecorder.start();
     startRecordButton.disabled = true;
     stopRecordButton.disabled = false;
@@ -133,4 +134,4 @@ function questionHandler() {
     playQuestionSoundTTS()
 }
 
-startCamera().then(questionHandler)
+startCamera();
