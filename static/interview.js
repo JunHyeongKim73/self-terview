@@ -5,6 +5,7 @@ const stopRecordButton = document.getElementById('stopRecord');
 const downloadButton = document.getElementById('downloadRecord');
 const questionElement = document.getElementById("question");
 const nextQuestionButton = document.getElementById("nextQuestion");
+const textElement = document.getElementById("text");
 
 let mediaRecorder;
 let recordedChunks = [];
@@ -48,6 +49,7 @@ async function startCamera() {
     };
 }
 
+let speechToText = "";
 function startAudio() {
     audioRecorder = new webkitSpeechRecognition() || new SpeechRecognition();
     audioRecorder.continuous = true;
@@ -64,7 +66,22 @@ function startAudio() {
     });
 
     audioRecorder.addEventListener("result", (e) => {
-        console.log(e.results[0][0].transcript)
+        let interimTranscript = "";
+        for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
+            let transcript = e.results[i][0].transcript;
+            console.log("transcript: ", transcript);
+            if (e.results[i].isFinal) {
+                speechToText += transcript;
+            } else {
+                interimTranscript += transcript;
+            }
+        }
+        textElement.innerHTML = speechToText + interimTranscript;
+        console.log("date: ", new Date())
+        t = e.results[0][0].transcript
+
+        console.log("t: ", t)
+        textElement.innerHTML = t;
     });
 }
 
