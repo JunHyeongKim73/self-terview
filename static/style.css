@@ -16,7 +16,7 @@ button {
     margin-right: 10px;
 }
 
-video {
+#videoElement {
     transform: scaleX(-1);
 }
 
