@@ -12,6 +12,8 @@ let recordedChunks = [];
 let questions;
 let questionIndex = 0;
 
+let audioRecorder;
+
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     videoElement.srcObject = stream;
@@ -46,15 +48,37 @@ async function startCamera() {
     };
 }
 
+function startAudio() {
+    audioRecorder = new webkitSpeechRecognition() || new SpeechRecognition();
+    audioRecorder.continuous = true;
+    audioRecorder.interimResults = true;  // 중간 결과를 반환
+    audioRecorder.lang = "ko-KR";
+    audioRecorder.maxAlternatives = 10000;
+
+    audioRecorder.addEventListener("speechstart", () => {
+        console.log("시작")
+    });
+
+    audioRecorder.addEventListener("speechend", () => {
+        console.log("끝")
+    });
+
+    audioRecorder.addEventListener("result", (e) => {
+        console.log(e.results[0][0].transcript)
+    });
+}
+
 startRecordButton.addEventListener('click', () => {
     questionHandler();
     mediaRecorder.start();
+    audioRecorder.start();
     startRecordButton.disabled = true;
     stopRecordButton.disabled = false;
 });
 
 stopRecordButton.addEventListener('click', () => {
     mediaRecorder.stop();
+    audioRecorder.stop();
     startRecordButton.disabled = false;
     stopRecordButton.disabled = true;
     recordedChunks = [];
@@ -135,3 +159,4 @@ function questionHandler() {
 }
 
 startCamera();
+startAudio();
