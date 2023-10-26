@@ -59,11 +59,11 @@ function startAudio() {
     audioRecorder.maxAlternatives = 10000;
 
     audioRecorder.addEventListener("speechstart", () => {
-        console.log("시작")
+        console.log("음성 녹음 시작")
     });
 
     audioRecorder.addEventListener("speechend", () => {
-        console.log("끝")
+        console.log("음성 녹음 끝")
     });
 
     audioRecorder.addEventListener("result", (e) => {
@@ -75,6 +75,10 @@ function startAudio() {
             } else {
                 interimTranscript += transcript;
             }
+
+            // console.log("interimTranscript: ", interimTranscript);
+            // console.log("speechToText: ", speechToText);
+            // console.log("Date: ", Date());
         }
     });
 }
@@ -82,19 +86,21 @@ function startAudio() {
 startRecordButton.addEventListener('click', () => {
     questionHandler();
     mediaRecorder.start();
-    audioRecorder.start();
     startRecordButton.disabled = true;
     stopRecordButton.disabled = false;
 });
 
 stopRecordButton.addEventListener('click', () => {
     mediaRecorder.stop();
-    audioRecorder.stop();
     startRecordButton.disabled = false;
     stopRecordButton.disabled = true;
     recordedChunks = [];
 
-    addSpeech();
+    setTimeout(() => {
+        addSpeech();
+        displayQA();
+        console.log(questions, answers);
+    }, 2000);
 });
 
 nextQuestionButton.addEventListener("click", () => {
@@ -105,7 +111,10 @@ nextQuestionButton.addEventListener("click", () => {
         return
     }
 
-    playQuestionSoundTTS()
+    setTimeout(() => {
+        addSpeech();
+        playQuestionSoundTTS();
+    }, 2000);
 })
 
 function navigateEnd() {
@@ -124,7 +133,6 @@ function shuffle(array) {
 }
 
 function playQuestionSoundTTS() {
-    addSpeech();
     const question = questions[questionIndex]
     questionElement.innerHTML = question
 
@@ -159,6 +167,10 @@ function playAudioFromBase64(audioBase64) {
     audio.play().then(() => {
         console.log("Played Audio")
     })
+
+    audio.addEventListener("ended", () => {
+        audioRecorder.start();
+    });
 }
 
 function questionHandler() {
@@ -173,9 +185,45 @@ function questionHandler() {
 }
 
 function addSpeech() {
+    console.log("ADD SPEECH");
+    console.log("speechToText: ", speechToText);
     answers.push(speechToText);
     speechToText = "";
+
+    audioRecorder.stop();
 }
 
 startCamera();
 startAudio();
+
+let currentIndex = 0;
+const questionDiv = document.getElementById("questionScript");
+const answerDiv = document.getElementById("answerScript");
+const prevButton = document.getElementById("prevQA");
+const nextButton = document.getElementById("nextQA");
+
+prevButton.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        displayQA();
+    }
+});
+
+nextButton.addEventListener("click", () => {
+    if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        displayQA();
+    }
+});
+
+function displayQA() {
+    questionDiv.textContent = "질문: " + questions[currentIndex];
+    answerDiv.textContent = "답변: " + answers[currentIndex];
+}
+
+function sleep(sec) {
+    let start = Date.now(), now = start;
+    while (now - start < sec * 1000) {
+        now = Date.now();
+    }
+}
