@@ -75,11 +75,7 @@ function startAudio() {
             } else {
                 interimTranscript += transcript;
             }
-            console.log("transcript: ", transcript);
-            console.log("interimTranscript: ", interimTranscript);
         }
-        console.log("date: ", new Date());
-        console.log("speechToText: ", speechToText);
     });
 }
 
@@ -99,7 +95,6 @@ stopRecordButton.addEventListener('click', () => {
     recordedChunks = [];
 
     addSpeech();
-    console.log(questions, answers)
 });
 
 nextQuestionButton.addEventListener("click", () => {
