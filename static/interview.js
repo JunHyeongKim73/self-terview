@@ -5,13 +5,13 @@ const stopRecordButton = document.getElementById('stopRecord');
 const downloadButton = document.getElementById('downloadRecord');
 const questionElement = document.getElementById("question");
 const nextQuestionButton = document.getElementById("nextQuestion");
-const textElement = document.getElementById("text");
 
 let mediaRecorder;
 let recordedChunks = [];
 
 let questions;
 let questionIndex = 0;
+let answers = [];
 
 let audioRecorder;
 
@@ -50,6 +50,7 @@ async function startCamera() {
 }
 
 let speechToText = "";
+
 function startAudio() {
     audioRecorder = new webkitSpeechRecognition() || new SpeechRecognition();
     audioRecorder.continuous = true;
@@ -69,19 +70,16 @@ function startAudio() {
         let interimTranscript = "";
         for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
             let transcript = e.results[i][0].transcript;
-            console.log("transcript: ", transcript);
             if (e.results[i].isFinal) {
-                speechToText += transcript;
+                speechToText += "\n" + transcript;
             } else {
                 interimTranscript += transcript;
             }
+            console.log("transcript: ", transcript);
+            console.log("interimTranscript: ", interimTranscript);
         }
-        textElement.innerHTML = speechToText + interimTranscript;
-        console.log("date: ", new Date())
-        t = e.results[0][0].transcript
-
-        console.log("t: ", t)
-        textElement.innerHTML = t;
+        console.log("date: ", new Date());
+        console.log("speechToText: ", speechToText);
     });
 }
 
@@ -99,10 +97,13 @@ stopRecordButton.addEventListener('click', () => {
     startRecordButton.disabled = false;
     stopRecordButton.disabled = true;
     recordedChunks = [];
+
+    addSpeech();
+    console.log(questions, answers)
 });
 
 nextQuestionButton.addEventListener("click", () => {
-    questionIndex++
+    questionIndex++;
 
     if (questionIndex >= questions.length) {
         navigateEnd()
@@ -128,6 +129,7 @@ function shuffle(array) {
 }
 
 function playQuestionSoundTTS() {
+    addSpeech();
     const question = questions[questionIndex]
     questionElement.innerHTML = question
 
@@ -173,6 +175,11 @@ function questionHandler() {
     shuffle(questions)
 
     playQuestionSoundTTS()
+}
+
+function addSpeech() {
+    answers.push(speechToText);
+    speechToText = "";
 }
 
 startCamera();
