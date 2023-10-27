@@ -135,7 +135,7 @@ function playQuestionSoundTTS() {
     const question = questions[questionIndex]
     questionElement.innerHTML = question
 
-    const ttsEndPoint = "http://localhost:8080/tts?question=" + question;
+    const ttsEndPoint = window.location.origin + "/tts?question=" + question;
 
     fetch(ttsEndPoint, {
         method: "GET",
