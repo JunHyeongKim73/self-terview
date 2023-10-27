@@ -217,13 +217,7 @@ nextButton.addEventListener("click", () => {
 });
 
 function displayQA() {
-    questionDiv.textContent = "질문: " + questions[currentIndex];
-    answerDiv.textContent = "답변: " + answers[currentIndex];
-}
-
-function sleep(sec) {
-    let start = Date.now(), now = start;
-    while (now - start < sec * 1000) {
-        now = Date.now();
-    }
+    console.log(answers[currentIndex]);
+    questionDiv.innerText = questions[currentIndex];
+    answerDiv.innerText = answers[currentIndex];
 }
