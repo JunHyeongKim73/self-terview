@@ -59,11 +59,11 @@ function startAudio() {
     audioRecorder.maxAlternatives = 10000;
 
     audioRecorder.addEventListener("speechstart", () => {
-        console.log("음성 녹음 시작")
+        // console.log("음성 녹음 시작")
     });
 
     audioRecorder.addEventListener("speechend", () => {
-        console.log("음성 녹음 끝")
+        // console.log("음성 녹음 끝")
     });
 
     audioRecorder.addEventListener("result", (e) => {
@@ -99,7 +99,6 @@ stopRecordButton.addEventListener('click', () => {
     setTimeout(() => {
         addSpeech();
         displayQA();
-        console.log(questions, answers);
     }, 2000);
 });
 
@@ -165,7 +164,7 @@ function playAudioFromBase64(audioBase64) {
     const audioUrl = URL.createObjectURL(audioBlob);
     const audio = new Audio(audioUrl);
     audio.play().then(() => {
-        console.log("Played Audio")
+        // console.log("Played Audio")
     })
 
     audio.addEventListener("ended", () => {
@@ -185,8 +184,6 @@ function questionHandler() {
 }
 
 function addSpeech() {
-    console.log("ADD SPEECH");
-    console.log("speechToText: ", speechToText);
     answers.push(speechToText);
     speechToText = "";
 
@@ -217,7 +214,6 @@ nextButton.addEventListener("click", () => {
 });
 
 function displayQA() {
-    console.log(answers[currentIndex]);
     questionDiv.innerText = questions[currentIndex];
     answerDiv.innerText = answers[currentIndex];
 }
