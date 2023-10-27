@@ -22,8 +22,16 @@
 <button id="downloadRecord" disabled>Download</button>
 
 <h2>질문 답변 스크립트</h2>
-<div id="questionScript">질문: </div>
-<div id="answerScript">답변: </div>
+<div id="qaContainer">
+    <div id="questionContainer">
+        <span style="font-weight: bold">질문: </span>
+        <span id="questionScript"></span>
+    </div>
+    <div id="answerContainer">
+        <span style="font-weight: bold">답변: </span>
+        <span id="answerScript"></span>
+    </div>
+</div>
 <div class="button-group">
     <button id="prevQA">이전</button>
     <button id="nextQA">다음</button>
