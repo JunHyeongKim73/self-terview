@@ -176,8 +176,10 @@ function questionHandler() {
     const queryStrings = window.location.search;
     const queryParams = new URLSearchParams(queryStrings);
     const questionStrings = queryParams.get("question");
+    const regex = /[^a-zA-Zㄱ-ㅎ가-힣+.\s]/g
+    const replacedStrings = questionStrings.replace(regex, '');
 
-    questions = questionStrings.split("\r\n");
+    questions = replacedStrings.split("\r\n");
     shuffle(questions)
 
     playQuestionSoundTTS()
