@@ -33,6 +33,17 @@ async function startCamera() {
         const url = URL.createObjectURL(blob);
 
         previewElement.src = url;
+        previewElement.addEventListener('loadedmetadata', () => {
+            if (previewElement.duration == Infinity) {
+                previewElement.currentTime = 1e101;
+                previewElement.ontimeupdate = () => {
+                    previewElement.currentTime = 0
+                    previewElement.ontimeupdate = () => {
+                        delete previewElement.ontimeupdate;
+                    }
+                }
+            }
+        })
         downloadButton.addEventListener('click', () => {
             const a = document.createElement('a');
             a.style.display = 'none';
