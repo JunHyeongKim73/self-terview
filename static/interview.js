@@ -192,7 +192,7 @@ function questionHandler() {
     const queryStrings = window.location.search;
     const queryParams = new URLSearchParams(queryStrings);
     const questionStrings = queryParams.get("question");
-    const regex = /[^a-zA-Zㄱ-ㅎ가-힣+.\s]/g
+    const regex = /[^0-9a-zA-Zㄱ-ㅎ가-힣+.\s]/g
     const replacedStrings = questionStrings.replace(regex, '');
 
     questions = replacedStrings.split("\r\n");
