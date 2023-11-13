@@ -11,7 +11,8 @@ let recordedChunks = [];
 
 let questions;
 let questionIndex = 0;
-let answers = [];
+let answers;
+let isRecording = false
 
 let audioRecorder;
 
@@ -84,10 +85,11 @@ function startAudio() {
 }
 
 startRecordButton.addEventListener('click', () => {
-    questionHandler();
+    playQuestionSoundTTS()
     mediaRecorder.start();
     startRecordButton.disabled = true;
     stopRecordButton.disabled = false;
+    isRecording = true;
 });
 
 stopRecordButton.addEventListener('click', () => {
@@ -100,13 +102,20 @@ stopRecordButton.addEventListener('click', () => {
         addSpeech();
         displayQA();
     }, 2000);
+
+    isRecording = false
 });
 
 nextQuestionButton.addEventListener("click", () => {
     questionIndex++;
 
     if (questionIndex >= questions.length) {
-        navigateEnd()
+        return
+    }
+
+    if (!isRecording) {
+        const question = questions[questionIndex]
+        questionElement.innerHTML = question
         return
     }
 
@@ -115,10 +124,6 @@ nextQuestionButton.addEventListener("click", () => {
         playQuestionSoundTTS();
     }, 2000);
 })
-
-function navigateEnd() {
-
-}
 
 function shuffle(array) {
     let currentIndex = array.length - 1;
@@ -182,18 +187,15 @@ function questionHandler() {
     questions = replacedStrings.split("\r\n");
     shuffle(questions)
 
-    playQuestionSoundTTS()
+    answers = new Array(questions.length)
 }
 
 function addSpeech() {
-    answers.push(speechToText);
+    answers[questionIndex] = speechToText
     speechToText = "";
 
     audioRecorder.stop();
 }
-
-startCamera();
-startAudio();
 
 let currentIndex = 0;
 const questionDiv = document.getElementById("questionScript");
@@ -219,3 +221,7 @@ function displayQA() {
     questionDiv.innerText = questions[currentIndex];
     answerDiv.innerText = answers[currentIndex];
 }
+
+startCamera();
+startAudio();
+questionHandler();
